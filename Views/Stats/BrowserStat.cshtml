@@ -1,0 +1,552 @@
+@model List<Stats_TestAutomation.Models.TestStat>
+@{
+    ViewBag.Title = "Index";
+    var zeros1 = true;
+    var zeros2 = true;
+    var zeros3 = true;
+    var zeros4 = true;
+    var zeros5 = true;
+    var zeros6 = true;
+    var zeros7 = true;
+    var zeros8 = true;
+    var zeros9 = true;
+    var zeros10 = true;
+    var zeros11 = true;
+    var zeros12 = true;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <style>
+        div > * {
+            text-align: center;
+        }
+
+        canvas {
+            text-align: center;
+        }
+
+        .panel-heading {
+            text-transform: uppercase;
+            font-weight: bold;
+            color: #014b94;
+            font-size: 22px;
+        }
+
+        .panel-default {
+            border: 1px solid #ddd;
+            width: 500px;
+            height: 350px;
+            color: #014b94;
+            margin-left: -4px;
+            margin-bottom: -1px;
+            margin-top: -1px;
+        }
+
+        .panel-body {
+            padding-bottom: 20px;
+        }
+
+        div > .panel-default {
+            text-align: center;
+        }
+
+        div.details {
+            width: 660px;
+        }
+
+        .details {
+            text-transform: uppercase;
+            color: #014b94;
+            font-size: 22px;
+            padding-left: 30px;
+            font-weight: bold;
+            vertical-align: top;
+            padding-top: 10px;
+            padding-bottom: 0px;
+        }
+
+        p.details {
+            font-size: 15px;
+            text-transform: none;
+            font-weight: normal;
+            color: #db047e;
+            /*margin-left: -15px;*/
+        }
+
+        .bubble {
+            border-style: solid;
+            border-width: 1px 1px 1px 1px;
+            border-color: #efefef;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            background-color: rgba(213, 216, 224, 0.32);
+            padding: 10px;
+            /*margin-left: -15px;*/
+        }
+
+        p.bubble {
+            width: 610px;
+        }
+
+        .row {
+            border-style: solid;
+            border-width: 1px 0px 1px 0px;
+            border-color: #efefef;
+            box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.2), 10px 10px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        hr {
+            margin-top: 11px;
+            margin-left: -15px;
+        }
+
+        .center {
+            padding-top: 20px;
+        }
+
+        .padTable {
+            margin-right: 10px;
+            margin-bottom: 20px;
+        }
+
+        .floatingMonth {
+            width: 350px;
+            height: 270px;
+            display: inline-block;
+            text-align: center;
+            box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2), 6px 6px 11px rgba(0, 0, 0, 0.12);
+        }
+
+        .zeros {
+            text-transform: uppercase;
+            color: #e81e26;
+            font-weight: bold;
+            font-size: 22px;
+            padding-top: 100px;
+        }
+
+        .scrollBubble {
+            overflow: auto;
+            height: 260px;
+            width: 655px;
+        }
+    </style>
+    <title>Browsers</title>
+</head>
+<body ng-app="app">
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/Chart.min.js"></script>
+    <script src="~/Scripts/angular-chart.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <div>
+        <h1>Testcase QuixaPoint Browsers</h1>
+    </div>
+    <div class="row">
+        <div class="panel-default" style="display: inline-block;">
+            <div class="panel-heading">
+                Chrome
+            </div>
+            <div class="panel-body" ng-controller="PolarCtrl" style="width: 300px; height: 200px; display: inline-block; text-align: center; padding-bottom: 30px;">
+                @{
+                    zeros1 = (Model[0].Browsers[0].Total == 0);
+                    if (zeros1)
+                    {
+                        <p class="zeros">Dati non disponibili</p>
+                    }
+                    else
+                    {
+                        <canvas id="radar" class="chart chart-doughnut" chart-data="data" chart-labels="labels"></canvas>
+                    }
+                }
+            </div>
+        </div>
+        <div class="details" style="display: inline-block;">
+            <div>
+                Dettagli Test
+                <hr style="width: 630px;" />
+            </div>
+            @if (!zeros1)
+            {
+                <div class="scrollBubble">
+                    <p class="details bubble" style="text-align: left;">Ultima esecuzione: </p>
+                    <p class="details bubble" style="text-align: left;">Test effettuato più frequentemente: </p>
+                </div>
+            }
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="panel-default" style="display: inline-block;">
+            <div class="panel-heading">
+                Chromium
+            </div>
+            <div class="panel-body" ng-controller="PolarCtrl" style="width: 300px; height: 200px; display: inline-block; text-align: center; padding-bottom: 30px;">
+                @{
+                    zeros2 = (Model[1].Browsers[1].Total == 0);
+                    if (zeros2)
+                    {
+                        <p class="zeros">Dati non disponibili</p>
+                    }
+                    else
+                    {
+                        <canvas id="radar2" class="chart chart-doughnut" chart-data="data2" chart-labels="labels"></canvas>
+                    }
+                } 
+            </div>
+        </div>
+        <div class="details" style="display: inline-block;">
+            <div>
+                Dettagli Test
+                <hr style="width: 630px;" />
+            </div>
+            @if (!zeros2)
+            {
+                <div class="scrollBubble">
+                    <p class="details bubble" style="text-align: left;">Ultima esecuzione: </p>
+                    <p class="details bubble" style="text-align: left;">Test effettuato più frequentemente: </p>
+                </div>
+            }
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="panel-default" style="display: inline-block;">
+            <div class="panel-heading">
+                Edge
+            </div>
+            <div class="panel-body" ng-controller="PolarCtrl" style="width: 300px; height: 200px; display: inline-block; text-align: center; padding-bottom: 30px;">
+                @{
+                    zeros3 = (Model[2].Browsers[2].Total == 0);
+                    if (zeros3)
+                    {
+                        <p class="zeros">Dati non disponibili</p>
+                    }
+                    else
+                    {
+                        <canvas id="radar3" class="chart chart-doughnut" chart-data="data3" chart-labels="labels"></canvas>
+                    }
+                }
+            </div>
+        </div>
+        <div class="details" style="display: inline-block;">
+            <div>
+                Dettagli Test
+                <hr style="width: 630px;" />
+            </div>
+            @if (!zeros3)
+            {
+                <div class="scrollBubble">
+                    <p class="details bubble" style="text-align: left;">Ultima esecuzione: </p>
+                    <p class="details bubble" style="text-align: left;">Test effettuato più frequentemente: </p>
+                </div>
+            }
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="panel-default" style="display: inline-block;">
+            <div class="panel-heading">
+                Firefox
+            </div>
+            <div class="panel-body" ng-controller="PolarCtrl" style="width: 300px; height: 200px; display: inline-block; text-align: center; padding-bottom: 30px;">
+                @{
+                    zeros4 = (Model[3].Browsers[3].Total == 0);
+                    if (zeros4)
+                    {
+                        <p class="zeros">Dati non disponibili</p>
+                    }
+                    else
+                    {
+                        <canvas id="radar4" class="chart chart-doughnut" chart-data="data4" chart-labels="labels"></canvas>
+                    }
+                }
+            </div>
+        </div>
+        <div class="details" style="display: inline-block;">
+            <div>
+                Dettagli Test
+                <hr style="width: 630px;" />
+            </div>
+            @if (!zeros4)
+            {
+                <div class="scrollBubble">
+                    <p class="details bubble" style="text-align: left;">Ultima esecuzione: </p>
+                    <p class="details bubble" style="text-align: left;">Test effettuato più frequentemente: </p>
+                </div>
+            }
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="panel-default" style="display: inline-block;">
+            <div class="panel-heading">
+                IE
+            </div>
+            <div class="panel-body" ng-controller="PolarCtrl" style="width: 300px; height: 200px; display: inline-block; text-align: center; padding-bottom: 30px;">
+                @{
+                    zeros5 = (Model[4].Browsers[4].Total == 0);
+                    if (zeros5)
+                    {
+                        <p class="zeros">Dati non disponibili</p>
+                    }
+                    else
+                    {
+                        <canvas id="radar5" class="chart chart-doughnut" chart-data="data5" chart-labels="labels"></canvas>
+                    }
+                }
+            </div>
+        </div>
+        <div class="details" style="display: inline-block;">
+            <div>
+                Dettagli Test
+                <hr style="width: 630px;" />
+            </div>
+            @if (!zeros5)
+            {
+                <div class="scrollBubble">
+                    <p class="details bubble" style="text-align: left;">Ultima esecuzione: </p>
+                    <p class="details bubble" style="text-align: left;">Test effettuato più frequentemente: </p>
+                </div>
+            }
+        </div>
+    </div>
+    <br />
+<div class="row">
+    <div class="panel-default" style="display: inline-block;">
+        <div class="panel-heading">
+            Safari
+        </div>
+        <div class="panel-body" ng-controller="PolarCtrl" style="width: 300px; height: 200px; display: inline-block; text-align: center; padding-bottom: 30px;">
+            @{
+                zeros6 = (Model[5].Browsers[5].Total == 0);
+                if (zeros6)
+                {
+                    <p class="zeros">Dati non disponibili</p>
+                }
+                else
+                {
+                    <canvas id="radar6" class="chart chart-doughnut" chart-data="data6" chart-labels="labels"></canvas>
+                }
+            }
+        </div>
+    </div>
+    <div class="details" style="display: inline-block;">
+        <div>
+            Dettagli Test
+            <hr style="width: 630px;" />
+        </div>
+        @if (!zeros6)
+        {
+            <div class="scrollBubble">
+                <p class="details bubble" style="text-align: left;">Ultima esecuzione: </p>
+                <p class="details bubble" style="text-align: left;">Test effettuato più frequentemente: </p>
+            </div>
+        }
+    </div>
+</div>
+    @{
+        zeros1 = true;
+        zeros2 = true;
+        zeros3 = true;
+        zeros4 = true;
+        zeros5 = true;
+        zeros6 = true;
+    }
+    <div>
+        <h1>Andamento Annuale</h1>
+    </div>
+    <div style="padding: 30px;">
+        <div>
+            <div class="panel-default padTable floatingMonth" ng-controller="BarMonthCtrl">
+                <div class="panel-heading" @(DateTime.Now.Month == 1 ? "style=color:#e81e26" : "")>
+                    Gennaio
+                </div>
+                <div class="panel-body">
+                    <canvas id="month01" class="chart chart-bar center" chart-data="dataM1" chart-labels="labels" chart-colors=""></canvas>
+                </div>
+            </div>
+            <div class="panel-default padTable floatingMonth" ng-controller="BarMonthCtrl">
+                <div class="panel-heading" @(DateTime.Now.Month == 2 ? "style=color:#e81e26" : "")>
+                    Febbraio
+                </div>
+                <div class="panel-body">
+                    <canvas id="month02" class="chart chart-bar center" chart-data="dataM2" chart-labels="labels" chart-colors=""></canvas>
+                </div>
+            </div>
+            <div class="panel-default padTable floatingMonth" ng-controller="BarMonthCtrl">
+                <div class="panel-heading" @(DateTime.Now.Month == 3 ? "style=color:#e81e26" : "")>
+                    Marzo
+                </div>
+                <div class="panel-body">
+                    <canvas id="month03" class="chart chart-bar center" chart-data="dataM3" chart-labels="labels" chart-colors=""></canvas>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="panel-default padTable floatingMonth" ng-controller="BarMonthCtrl">
+                <div class="panel-heading" @(DateTime.Now.Month == 4 ? "style=color:#e81e26" : "")>
+                    Aprile
+                </div>
+                <div class="panel-body">
+                    <canvas id="month04" class="chart chart-bar center" chart-data="dataM4" chart-labels="labels" chart-colors=""></canvas>
+                </div>
+            </div>
+            <div class="panel-default padTable floatingMonth" ng-controller="BarMonthCtrl">
+                <div class="panel-heading" @(DateTime.Now.Month == 5 ? "style=color:#e81e26" : "")>
+                    Maggio
+                </div>
+                <div class="panel-body">
+                    <canvas id="month05" class="chart chart-bar center" chart-data="dataM5" chart-labels="labels" chart-colors=""></canvas>
+                </div>
+            </div>
+            <div class="panel-default padTable floatingMonth" ng-controller="BarMonthCtrl">
+                <div class="panel-heading" @(DateTime.Now.Month == 6 ? "style=color:#e81e26" : "")>
+                    Giugno
+                </div>
+                <div class="panel-body">
+                    <canvas id="month06" class="chart chart-bar center" chart-data="dataM6" chart-labels="labels" chart-colors=""></canvas>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="panel-default padTable floatingMonth" ng-controller="BarMonthCtrl">
+                <div class="panel-heading" @(DateTime.Now.Month == 7 ? "style=color:#e81e26" : "")>
+                    Luglio
+                </div>
+                <div class="panel-body">
+                    <canvas id="month07" class="chart chart-bar center" chart-data="dataM7" chart-labels="labels" chart-colors=""></canvas>
+                </div>
+            </div>
+            <div class="panel-default padTable floatingMonth" ng-controller="BarMonthCtrl">
+                <div class="panel-heading" @(DateTime.Now.Month == 8 ? "style=color:#e81e26" : "")>
+                    Agosto
+                </div>
+                <div class="panel-body">
+                    <canvas id="month08" class="chart chart-bar center" chart-data="dataM8" chart-labels="labels" chart-colors=""></canvas>
+                </div>
+            </div>
+            <div class="panel-default padTable floatingMonth" ng-controller="BarMonthCtrl">
+                <div class="panel-heading" @(DateTime.Now.Month == 9 ? "style=color:#e81e26" : "")>
+                    Settembre
+                </div>
+                <div class="panel-body">
+                    <canvas id="month09" class="chart chart-bar center" chart-data="dataM9" chart-labels="labels" chart-colors=""></canvas>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="panel-default padTable floatingMonth" ng-controller="BarMonthCtrl">
+                <div class="panel-heading" @(DateTime.Now.Month == 10 ? "style=color:#e81e26" : "")>
+                    Ottobre
+                </div>
+                <div class="panel-body">
+                    <canvas id="month10" class="chart chart-bar center" chart-data="dataM10" chart-labels="labels" chart-colors=""></canvas>
+                </div>
+            </div>
+            <div class="panel-default padTable floatingMonth" ng-controller="BarMonthCtrl">
+                <div class="panel-heading" @(DateTime.Now.Month == 11 ? "style=color:#e81e26" : "")>
+                    Novembre
+                </div>
+                <div class="panel-body">
+                    <canvas id="month11" class="chart chart-bar center" chart-data="dataM11" chart-labels="labels" chart-colors=""></canvas>
+                </div>
+            </div>
+            <div class="panel-default padTable floatingMonth" ng-controller="BarMonthCtrl">
+                <div class="panel-heading" @(DateTime.Now.Month == 12 ? "style=color:#e81e26" : "")>
+                    Dicembre
+                </div>
+                <div class="panel-body">
+                    <canvas id="month12" class="chart chart-bar center" chart-data="dataM12" chart-labels="labels" chart-colors=""></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default" ng-controller="TrendCtrl" style="width:600px;height:380px;margin:auto;">
+        <div class="panel-heading">
+            <select ng-change="setChart()" ng-model="testName">
+            @{ 
+                foreach(Stats_TestAutomation.Models.TestStat tst in Model)
+                {
+                    <option value="@tst.TestName.ToLower()">@tst.TestName</option>
+                }
+            }
+            </select>
+        </div>
+        <div class="panel-body">
+            <canvas id="trendId" class="chart chart-line center" chart-data="values" chart-series="series" chart-labels="labels" chart-colors="" chart-options="options"></canvas>
+        </div>
+    </div>
+    <script>
+        angular.module("app", ["chart.js"]).controller("PolarCtrl",
+            function ($scope) {
+                $scope.labels = ["Dettaglio", "Login", "Login Agenzia", "Logout", "Logout Agenzia", "Preventivo Agenzia", "Preventivo Cliente"];
+                Chart.defaults.global.colors = ['#803690', '#00ADF9', '#DCDCDC', '#46BFBD'];
+                $scope.data = [@Model[0].Browsers[0].Total, @Model[1].Browsers[0].Total, @Model[2].Browsers[0].Total, @Model[3].Browsers[0].Total, @Model[4].Browsers[0].Total, @Model[5].Browsers[0].Total, @Model[6].Browsers[0].Total];
+                $scope.data2 = [@Model[0].Browsers[1].Total, @Model[1].Browsers[1].Total, @Model[2].Browsers[1].Total, @Model[3].Browsers[1].Total, @Model[4].Browsers[1].Total, @Model[5].Browsers[1].Total, @Model[6].Browsers[1].Total];
+                $scope.data3 = [@Model[0].Browsers[2].Total, @Model[1].Browsers[2].Total, @Model[2].Browsers[2].Total, @Model[3].Browsers[2].Total, @Model[4].Browsers[2].Total, @Model[5].Browsers[2].Total, @Model[6].Browsers[2].Total];
+                $scope.data4 = [@Model[0].Browsers[3].Total, @Model[1].Browsers[3].Total, @Model[2].Browsers[3].Total, @Model[3].Browsers[3].Total, @Model[4].Browsers[3].Total, @Model[5].Browsers[3].Total, @Model[6].Browsers[3].Total];
+                $scope.data5 = [@Model[0].Browsers[4].Total, @Model[1].Browsers[4].Total, @Model[2].Browsers[4].Total, @Model[3].Browsers[4].Total, @Model[4].Browsers[4].Total, @Model[5].Browsers[4].Total, @Model[6].Browsers[4].Total];
+                $scope.data6 = [@Model[0].Browsers[5].Total, @Model[1].Browsers[5].Total, @Model[2].Browsers[5].Total, @Model[3].Browsers[5].Total, @Model[4].Browsers[5].Total, @Model[5].Browsers[5].Total, @Model[6].Browsers[5].Total];
+            }).controller("BarMonthCtrl",
+            function ($scope) {
+                $scope.labels = ["Chrome", "Chromium", "Edge", "Firefox", "IE", "Safari"];
+                $scope.dataM1 = [0, 0, 0, 0, 0, 0];
+                $scope.dataM2 = [0, 0, 0, 0, 0, 0];
+                $scope.dataM3 = [0, 0, 0, 0, 0, 0];
+                $scope.dataM4 = [1, 6, 2, 9, 3, 12];
+                $scope.dataM5 = [0, 0, 0, 0, 0, 0];
+                $scope.dataM6 = [0, 0, 0, 0, 0, 0];
+                $scope.dataM7 = [0, 0, 0, 0, 0, 0];
+                $scope.dataM8 = [0, 0, 0, 0, 0, 0];
+                $scope.dataM9 = [0, 0, 0, 0, 0, 0];
+                $scope.dataM10 = [0, 0, 0, 0, 0, 0];
+                $scope.dataM11 = [0, 0, 0, 0, 0, 0];
+                $scope.dataM12 = [0, 0, 0, 0, 0, 0];
+            }).controller("TrendCtrl",
+            function ($scope) {
+                $scope.labels = ["gen", "feb", "mar", "apr", "mag", "giu", "lug", "ago", "set", "ott", "nov", "dic"];
+                $scope.values = [
+                    [7, 4, 8, 11, 22, 16, 5, 4, 11, 10, 13, 8],
+                    [22, 3, 7, 19, 3, 6, 17, 8, 19, 21, 2, 9],
+                    [7, 9, 8, 10, 10, 13, 7, 6, 5, 7, 10, 15],
+                    [0, 0, 0, 0, 0, 0, 0, 3, 7, 6, 9, 9]
+                ];
+                $scope.series = ["Successi", "Fallimenti", "Errori dataset", "Timeout"];
+                $scope.options = {
+                    legend: { display: true, verticalAlign: "center", fullWidth: false },
+                    elements: { line: { tension: 0, fill: false, borderWidth: 3 } }
+                };
+                $scope.setChart = function () {
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: "/Stats/SetChart",
+                        data: JSON.stringify($scope.testName),
+                        success: function (response) {
+                            console.log(response);
+                        }
+                    })
+                }
+            });
+    </script>
+    <script type="text/javascript">
+        function ReturnIndex() {
+            $.ajax({
+                url: "/stats/Index2",
+                data: "",
+                type: "POST",
+                contentType: "application/json",
+                success: function (response) {
+                    window.document.location.href = response;
+                }
+            });
+        }
+    </script>
+    <h2><a href="#" onclick="ReturnIndex()">< Indietro</a></h2>
+</body>
+</html>
