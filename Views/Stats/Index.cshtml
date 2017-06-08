@@ -1,0 +1,585 @@
+@model List<Stats_TestAutomation.Models.TestStat>
+@{
+    ViewBag.Title = "Index";
+    var zeros1 = true;
+    var zeros2 = true;
+    var zeros3 = true;
+    var zeros4 = true;
+    var zeros5 = true;
+    var zeros6 = true;
+    var zeros7 = true;
+    var zeros8 = true;
+    var zeros9 = true;
+    var zeros10 = true;
+    var zeros11 = true;
+    var zeros12 = true;
+}
+
+<!DOCTYPE>
+<html>
+<head>
+    <style>
+        div > * {
+            text-align: center;
+        }
+
+        canvas {
+            text-align: center;
+        }
+
+        .panel-heading {
+            text-transform: uppercase;
+            font-weight: bold;
+            color: #014b94;
+            font-size: 22px;
+        }
+
+        .panel-default {
+            border: 1px solid #ddd;
+            width: 500px;
+            height: 350px;
+            color: #014b94;
+            margin-left: -4px;
+            margin-bottom: -1px;
+            margin-top: -1px;
+        }
+
+        .panel-body {
+            padding-bottom: 20px;
+        }
+
+        div > .panel-default {
+            text-align: center;
+        }
+
+        .details {
+            text-transform: uppercase;
+            color: #014b94;
+            font-size: 22px;
+            padding-left: 30px;
+            font-weight: bold;
+            vertical-align: top;
+            padding-top: 10px;
+            padding-bottom: 0px;
+        }
+
+        div.details {
+            width: 660px;
+        }
+
+        p.details {
+            font-size: 15px;
+            text-transform: none;
+            font-weight: normal;
+            color: #db047e;
+            /*margin-left: -15px;*/
+        }
+
+        .bubble {
+            border-style: solid;
+            border-width: 1px 1px 1px 1px;
+            border-color: #efefef;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            background-color: rgba(213, 216, 224, 0.32);
+            padding: 10px;
+            /*margin-left: -15px;*/
+        }
+
+        p.bubble {
+            width: 610px;
+        }
+
+        .row {
+            border-style: solid;
+            border-width: 1px 0px 1px 0px;
+            border-color: #efefef;
+            box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.2), 10px 10px 20px rgba(0, 0, 0, 0.12);
+            width: 1170px;
+            height: 350px;
+        }
+
+        hr {
+            margin-top: 11px;
+            margin-left: -15px;
+        }
+
+        .center {
+            padding-top: 20px;
+        }
+
+        .padTable {
+            margin-right: 10px;
+            margin-bottom: 20px;
+        }
+
+        .floatingMonth {
+            width: 350px;
+            height: 270px;
+            display: inline-block;
+            text-align: center;
+            box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2), 6px 6px 11px rgba(0, 0, 0, 0.12);
+        }
+
+        .zeros {
+            text-transform: uppercase;
+            color: #e81e26;
+            font-weight: bold;
+            font-size: 22px;
+            padding-top: 100px;
+        }
+
+        .zerosChart {
+            text-transform: uppercase;
+            color: #014b94;
+            font-weight: lighter;
+            font-size: 22px;
+            padding-top: 65px;
+        }
+
+        .scrollBubble {
+            overflow: auto;
+            height: 260px;
+            width: 655px;
+        }
+
+        .cd-side-nav {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.2s 0s, visibility 0s 0.2s;
+        }
+
+        .sideNav {
+            z-index: 1;
+            overflow-x: hidden;
+            height: 100%;
+            width: 0px;
+            transition: 0.5s;
+            background-color: burlywood;
+        }
+    </style>
+    <title>TestCases</title>
+</head>
+<body ng-app="app" style="background-color: #ebe3f9">
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/Chart.min.js"></script>
+    <script src="~/Scripts/angular-chart.min.js"></script>
+
+    <div>
+        <h1 onclick="openNav()">Testcase QuixaPoint</h1>
+    </div>
+
+    <div id="sideNav" class="sideNav">
+        <a style="float: right; font-size: 20px;" onclick="closeNav()">&times</a><br/>
+        <a href="#">Panoramica</a><br/>
+        <a href="#">Dettaglio</a><br/>
+        <a href="#">Login</a>
+    </div>
+
+    <div style="text-align: center;">
+        <div style="display: inline-flex;">
+            <div style="display: inline-flex; background-color: #ffffff; padding: 10px;" ng-controller="DoughnutCtrl">
+                <div style="display: inline-block; background-color: #ffffff; width: 200px; height: 200px; margin: auto; margin-right: 10px;">
+                    <canvas id="doughnutDett" class="chart chart-doughnut" chart-data="data" chart-labels="labels" char-colors="colors"></canvas>
+                </div>
+                <div style="display: inline-block;">
+                    <p style="font-weight: bold; text-transform: uppercase;">Legenda</p>
+                    <p><span style="border-radius: 50%; width: 10px; height: 10px; background-color: #47d147">a</span> Successi: {{data[0]}}</p>
+                    <p><span></span> Fallimenti: {{data[2]}}</p>
+                    <p><span></span> Errori dataset: {{data[1]}}</p>
+                    <p><span></span> Timeout: {{data[3]}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*<div class="row">
+        <div class="panel-default" style="display: inline-block;">
+            <div class="panel-heading">Dettaglio</div>
+            <div class="panel-body" ng-controller="DoughnutCtrl" style="width: 300px; height: 200px; display: inline-block; text-align: center; padding-bottom: 30px;">
+                @{
+                    zeros1 = (Model[0].Esiti["Success"] == 0) && (Model[0].Esiti["Fails"] == 0) && (Model[0].Esiti["Dataseterror"] == 0) && (Model[0].Esiti["Timeout"] == 0);
+                    if (zeros1)
+                    {
+                        <p class="zeros">Dati non disponibili</p>
+                    }
+                    else
+                    {
+                        <canvas id="doughnutDett" class="chart chart-doughnut" chart-data="data" chart-labels="labels" char-colors="colors"></canvas>
+                        <div id="chartLegend" class="chart-legend"></div>
+                    }
+                }
+            </div>
+        </div>
+        <div class="details" style="display: inline-block; overflow: hidden;">
+            <div>
+                Dettagli Test
+                <hr style="width: 630px;" />
+            </div>
+            @if (!zeros1)
+            {
+                <div class="scrollBubble">
+                    <p class="details bubble" style="text-align: left;">Ultima esecuzione: </p>
+                    <p class="details bubble" style="text-align: left;">Test con più Successi: </p>
+                    <p class="details bubble" style="text-align: left;">Test con più fallimenti: </p>
+                </div>
+            }
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="panel-default" style="display: inline-block;">
+            <div class="panel-heading">Login</div>
+            <div class="panel-body" ng-controller="DoughnutCtrl" style="width: 300px; height: 200px; display: inline-block; text-align: center;">
+                @{
+                    zeros2 = (Model[1].Esiti["Success"] == 0) && (Model[1].Esiti["Fails"] == 0) && (Model[1].Esiti["Dataseterror"] == 0) && (Model[1].Esiti["Timeout"] == 0);
+                    if (zeros2)
+                    {
+                        <p class="zeros">Dati non disponibili</p>
+                    }
+                    else
+                    {
+                        <canvas id="doughnutLog" class="chart chart-doughnut" chart-data="data2" chart-labels="labels" char-colors="colors"></canvas>
+                    }
+                }
+            </div>
+        </div>
+        <div class="details" style="display: inline-block;">
+            <div>
+                Dettagli Test
+                <hr style="width: 630px;" />
+            </div>
+            @if (!zeros2)
+            {
+                <div class="scrollBubble">
+                    <p class="details bubble" style="text-align: left;">Ultima esecuzione: </p>
+                    <p class="details bubble" style="text-align: left;">Test con più Successi: </p>
+                    <p class="details bubble" style="text-align: left;">Test con più fallimenti: </p>
+                </div>
+            }
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="panel-default" style="display: inline-block;">
+            <div class="panel-heading">Login Agenzia</div>
+            <div class="panel-body" ng-controller="DoughnutCtrl" style="width: 300px; height: 200px; display: inline-block; text-align: center;">
+                @{
+                    zeros3 = (Model[2].Esiti["Success"] == 0) && (Model[2].Esiti["Fails"] == 0) && (Model[2].Esiti["Dataseterror"] == 0) && (Model[2].Esiti["Timeout"] == 0);
+                    if (zeros3)
+                    {
+                        <p class="zeros">Dati non disponibili</p>
+                    }
+                    else
+                    {
+                        <canvas id="doughnutLogAg" class="chart chart-doughnut" chart-data="data3" chart-labels="labels" char-colors="colors"></canvas>
+                    }
+                }
+            </div>
+        </div>
+        <div class="details" style="display: inline-block;">
+            <div>
+                Dettagli Test
+                <hr style="width: 630px;" />
+            </div>
+            @if (!zeros3)
+            {
+                <div class="scrollBubble">
+                    <p class="details bubble" style="text-align: left;">Ultima esecuzione: </p>
+                    <p class="details bubble" style="text-align: left;">Test con più Successi: </p>
+                    <p class="details bubble" style="text-align: left;">Test con più fallimenti: </p>
+                </div>
+            }
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="panel-default" style="display: inline-block;">
+            <div class="panel-heading">Logout</div>
+            <div class="panel-body" ng-controller="DoughnutCtrl" style="width: 300px; height: 200px; display: inline-block; text-align: center;">
+                @{
+                    zeros4 = (Model[3].Esiti["Success"] == 0) && (Model[3].Esiti["Fails"] == 0) && (Model[3].Esiti["Dataseterror"] == 0) && (Model[3].Esiti["Timeout"] == 0);
+                    if (zeros4)
+                    {
+                        <p class="zeros">Dati non disponibili</p>
+                    }
+                    else
+                    {
+                        <canvas id="doughnutLogout" class="chart chart-doughnut" chart-data="data4" chart-labels="labels" char-colors="colors"></canvas>
+                    }
+                }
+            </div>
+        </div>
+        <div class="details" style="display: inline-block;">
+            <div>
+                Dettagli Test
+                <hr style="width: 630px;" />
+            </div>
+            @if (!zeros4)
+            {
+                <div class="scrollBubble">
+                    <p class="details bubble" style="text-align: left;">Ultima esecuzione: </p>
+                    <p class="details bubble" style="text-align: left;">Test con più Successi: </p>
+                    <p class="details bubble" style="text-align: left;">Test con più fallimenti: </p>
+                </div>
+            }
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="panel-default" style="display: inline-block;">
+            <div class="panel-heading">Logout Agenzia</div>
+            <div class="panel-body" ng-controller="DoughnutCtrl" style="width: 300px; height: 200px; display: inline-block; text-align: center;">
+                @{
+                    zeros5 = (Model[4].Esiti["Success"] == 0) && (Model[4].Esiti["Fails"] == 0) && (Model[4].Esiti["Dataseterror"] == 0) && (Model[4].Esiti["Timeout"] == 0);
+                    if (zeros5)
+                    {
+                        <p class="zeros">Dati non disponibili</p>
+                    }
+                    else
+                    {
+                        <canvas id="doughnutLogoAg" class="chart chart-doughnut" chart-data="data5" chart-labels="labels" char-colors="colors"></canvas>
+                    }
+                }
+            </div>
+        </div>
+        <div class="details" style="display: inline-block;">
+            <div>
+                Dettagli Test
+                <hr style="width: 630px;" />
+            </div>
+            @if (!zeros5)
+            {
+                <div class="scrollBubble">
+                    <p class="details bubble" style="text-align: left;">Ultima esecuzione: </p>
+                    <p class="details bubble" style="text-align: left;">Test con più Successi: </p>
+                    <p class="details bubble" style="text-align: left;">Test con più fallimenti: </p>
+                </div>
+            }
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="panel-default" style="display: inline-block;">
+            <div class="panel-heading">Preventivo Agenzia</div>
+            <div class="panel-body" ng-controller="DoughnutCtrl" style="width: 300px; height: 200px; display: inline-block; text-align: center;">
+                @{
+                    zeros6 = (Model[5].Esiti["Success"] == 0) && (Model[5].Esiti["Fails"] == 0) && (Model[5].Esiti["Dataseterror"] == 0) && (Model[5].Esiti["Timeout"] == 0);
+                    if (zeros6)
+                    {
+                        <p class="zeros">Dati non disponibili</p>
+                    }
+                    else
+                    {
+                        <canvas id="doughnutPrevA" class="chart chart-doughnut" chart-data="data6" chart-labels="labels" char-colors="colors"></canvas>
+                    }
+                }
+            </div>
+        </div>
+        <div class="details" style="display: inline-block;">
+            <div>
+                Dettagli Test
+                <hr style="width: 630px;" />
+            </div>
+            @if (!zeros6)
+            {
+                <div class="scrollBubble">
+                    <p class="details bubble" style="text-align: left;">Ultima esecuzione: </p>
+                    <p class="details bubble" style="text-align: left;">Test con più Successi: </p>
+                    <p class="details bubble" style="text-align: left;">Test con più fallimenti: </p>
+                </div>
+            }
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="panel-default" style="display: inline-block;">
+            <div class="panel-heading">Preventivo Cliente</div>
+            <div class="panel-body" ng-controller="DoughnutCtrl" style="width: 300px; height: 200px; display: inline-block; text-align: center;">
+                @{
+                    zeros7 = (Model[6].Esiti["Success"] == 0) && (Model[6].Esiti["Fails"] == 0) && (Model[6].Esiti["Dataseterror"] == 0) && (Model[6].Esiti["Timeout"] == 0);
+                    if (zeros7)
+                    {
+                        <p class="zeros">Dati non disponibili</p>
+                    }
+                    else
+                    {
+                        <canvas id="doughnutPrevC" class="chart chart-doughnut" chart-data="data7" chart-labels="labels" char-colors="colors"></canvas>
+                    }
+                }
+            </div>
+        </div>
+        <div class="details" style="display: inline-block;">
+            <div>
+                Dettagli Test
+                <hr style="width: 630px;" />
+            </div>
+            @if (!zeros7)
+            {
+                <div class="scrollBubble">
+                    <p class="details bubble" style="text-align: left;">Ultima esecuzione: </p>
+                    <p class="details bubble" style="text-align: left;">Test con più Successi: </p>
+                    <p class="details bubble" style="text-align: left;">Test con più fallimenti: </p>
+                </div>
+            }
+        </div>
+    </div>
+    @{
+        zeros1 = true;
+        zeros2 = true;
+        zeros3 = true;
+        zeros4 = true;
+        zeros5 = true;
+        zeros6 = true;
+        zeros7 = true;
+    }
+    <div>
+        <h1>Andamento Annuale</h1>
+    </div>
+    <div style="text-align: center;">
+        <div style="display: inline-flex;">
+            <div class="panel-default padTable floatingMonth" ng-controller="BarMonthCtrl">
+                <div class="panel-heading" @(DateTime.Now.Month == 1 ? "style=color:#e81e26" : "")>Gennaio</div>
+                <div class="panel-body">
+                    @*<canvas id="month01" class="chart chart-bar center" chart-data="dataM1" chart-labels="labels" chart-colors=""></canvas>
+                    <p class="zerosChart">Dati mancanti</p>
+                </div>
+            </div>
+            <div class="panel-default padTable floatingMonth" ng-controller="BarMonthCtrl">
+                <div class="panel-heading" @(DateTime.Now.Month == 2 ? "style=color:#e81e26" : "")>Febbraio</div>
+                <div class="panel-body">
+                    <canvas id="month02" class="chart chart-bar center" chart-data="dataM2" chart-labels="labels" chart-colors=""></canvas>
+                </div>
+            </div>
+            <div class="panel-default padTable floatingMonth" ng-controller="BarMonthCtrl">
+                <div class="panel-heading" @(DateTime.Now.Month == 3 ? "style=color:#e81e26" : "")>Marzo</div>
+                <div class="panel-body">
+                    <canvas id="month03" class="chart chart-bar center" chart-data="dataM3" chart-labels="labels" chart-colors=""></canvas>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="panel-default padTable floatingMonth" ng-controller="BarMonthCtrl">
+                <div class="panel-heading" @(DateTime.Now.Month == 4 ? "style=color:#e81e26" : "")>Aprile</div>
+                <div class="panel-body">
+                    <canvas id="month04" class="chart chart-bar center" chart-data="dataM4" chart-labels="labels" chart-colors=""></canvas>
+                </div>
+            </div>
+            <div class="panel-default padTable floatingMonth" ng-controller="BarMonthCtrl">
+                <div class="panel-heading" @(DateTime.Now.Month == 5 ? "style=color:#e81e26" : "")>Maggio</div>
+                <div class="panel-body">
+                    <canvas id="month05" class="chart chart-bar center" chart-data="dataM5" chart-labels="labels" chart-colors=""></canvas>
+                </div>
+            </div>
+            <div class="panel-default padTable floatingMonth" ng-controller="BarMonthCtrl">
+                <div class="panel-heading" @(DateTime.Now.Month == 6 ? "style=color:#e81e26" : "")>Giugno</div>
+                <div class="panel-body">
+                    <canvas id="month06" class="chart chart-bar center" chart-data="dataM6" chart-labels="labels" chart-colors=""></canvas>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="panel-default padTable floatingMonth" ng-controller="BarMonthCtrl">
+                <div class="panel-heading" @(DateTime.Now.Month == 7 ? "style=color:#e81e26" : "")>Luglio</div>
+                <div class="panel-body">
+                    <canvas id="month07" class="chart chart-bar center" chart-data="dataM7" chart-labels="labels" chart-colors=""></canvas>
+                </div>
+            </div>
+            <div class="panel-default padTable floatingMonth" ng-controller="BarMonthCtrl">
+                <div class="panel-heading" @(DateTime.Now.Month == 8 ? "style=color:#e81e26" : "")>Agosto</div>
+                <div class="panel-body">
+                    <canvas id="month08" class="chart chart-bar center" chart-data="dataM8" chart-labels="labels" chart-colors=""></canvas>
+                </div>
+            </div>
+            <div class="panel-default padTable floatingMonth" ng-controller="BarMonthCtrl">
+                <div class="panel-heading" @(DateTime.Now.Month == 9 ? "style=color:#e81e26" : "")>Settembre</div>
+                <div class="panel-body">
+                    <canvas id="month09" class="chart chart-bar center" chart-data="dataM9" chart-labels="labels" chart-colors=""></canvas>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="panel-default padTable floatingMonth" ng-controller="BarMonthCtrl">
+                <div class="panel-heading" @(DateTime.Now.Month == 10 ? "style=color:#e81e26" : "")>Ottobre</div>
+                <div class="panel-body">
+                    <canvas id="month10" class="chart chart-bar center" chart-data="dataM10" chart-labels="labels" chart-colors=""></canvas>
+                </div>
+            </div>
+            <div class="panel-default padTable floatingMonth" ng-controller="BarMonthCtrl">
+                <div class="panel-heading" @(DateTime.Now.Month == 11 ? "style=color:#e81e26" : "")>Novembre</div>
+                <div class="panel-body">
+                    <canvas id="month11" class="chart chart-bar center" chart-data="dataM11" chart-labels="labels" chart-colors=""></canvas>
+                </div>
+            </div>
+            <div class="panel-default padTable floatingMonth" ng-controller="BarMonthCtrl">
+                <div class="panel-heading" @(DateTime.Now.Month == 12 ? "style=color:#e81e26" : "")>Dicembre</div>
+                <div class="panel-body">
+                    <canvas id="month12" class="chart chart-bar center" chart-data="dataM12" chart-labels="labels" chart-colors=""></canvas>
+                </div>
+            </div>
+        </div>
+    </div>*@
+    <h1><a onclick="BrowsersStats()">Statistiche Browsers</a></h1>
+    <br />
+
+
+    <script type="text/javascript">
+        function BrowsersStats() {
+            $.ajax({
+                url: '/Stats/Browser',
+                type: 'POST',
+                data: '',
+                contentType: "application/json",
+                success: function (response) {
+                    window.document.location.href = response;
+                }
+            });
+        }
+
+        function openNav() {
+            var el = document.getElementById("sideNav");
+            el.style.width = "250px";
+        }
+
+        function closeNav() {
+            var el = document.getElementById("sideNav");
+            el.style.width = "0px";
+        }
+    </script>
+    <script>
+        angular.module("app", ["chart.js"]).controller("DoughnutCtrl",
+            function ($scope) {
+                $scope.labels = ["Successi", "Errori Dataset", "Fallimenti", "Timeout"];
+                Chart.defaults.global.colors = ["#47d147", "#ffdb4d", "#ff5c33", "#66d9ff"];
+                $scope.data = [@Model[0].Esiti["Success"], @Model[0].Esiti["Dataseterror"], @Model[0].Esiti["Fails"], @Model[0].Esiti["Timeout"]];
+                $scope.data2 = [@Model[1].Esiti["Success"], @Model[1].Esiti["Dataseterror"], @Model[1].Esiti["Fails"], @Model[1].Esiti["Timeout"]];
+                $scope.data3 = [@Model[2].Esiti["Success"], @Model[2].Esiti["Dataseterror"], @Model[2].Esiti["Fails"], @Model[2].Esiti["Timeout"]];
+                $scope.data4 = [@Model[3].Esiti["Success"], @Model[3].Esiti["Dataseterror"], @Model[3].Esiti["Fails"], @Model[3].Esiti["Timeout"]];
+                $scope.data5 = [@Model[4].Esiti["Success"], @Model[4].Esiti["Dataseterror"], @Model[4].Esiti["Fails"], @Model[4].Esiti["Timeout"]];
+                $scope.data6 = [@Model[5].Esiti["Success"], @Model[5].Esiti["Dataseterror"], @Model[5].Esiti["Fails"], @Model[5].Esiti["Timeout"]];
+                $scope.data7 = [@Model[6].Esiti["Success"], @Model[6].Esiti["Dataseterror"], @Model[6].Esiti["Fails"], @Model[6].Esiti["Timeout"]];
+            }).controller("BarMonthCtrl",
+            function ($scope) {
+                $scope.labels = ["Dettaglio", "Login Cliente", "Login Agenzia", "Logout Cliente", "Logout Agenzia", "Prev. Cliente", "Prev. Agenzia"];
+                $scope.dataM1 = [0, 0, 0, 0, 0, 0, 0];
+                $scope.dataM2 = [0, 0, 0, 0, 0, 0, 0];
+                $scope.dataM3 = [0, 0, 0, 0, 0, 0, 0];
+                $scope.dataM4 = [1, 6, 2, 9, 3, 12, 10];
+                $scope.dataM5 = [0, 0, 0, 0, 0, 0, 0];
+                $scope.dataM6 = [0, 0, 0, 0, 0, 0, 0];
+                $scope.dataM7 = [0, 0, 0, 0, 0, 0, 0];
+                $scope.dataM8 = [0, 0, 0, 0, 0, 0, 0];
+                $scope.dataM9 = [0, 0, 0, 0, 0, 0, 0];
+                $scope.dataM10 = [0, 0, 0, 0, 0, 0, 0];
+                $scope.dataM11 = [0, 0, 0, 0, 0, 0, 0];
+                $scope.dataM12 = [0, 0, 0, 0, 0, 0, 0];
+            });
+    </script>
+</body>
+</html>
